@@ -4,7 +4,8 @@
   "description": "Api server for Tunebay",
   "main": "index.js",
   "scripts": {
-    "test": "npm run test"
+    "test": "",
+    "start": "nodemon index.js"
   },
   "repository": {
     "type": "git",
