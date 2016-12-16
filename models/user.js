@@ -1,6 +1,7 @@
+const moment = require('moment');
+const bcrypt = require('bcrypt-nodejs');
 const db = require('../database/config').db;
 const sql = require('../database/config').sql;
-const moment = require('moment');
 
 const sqlCreateUser = sql('./queries/createUser.sql');
 
@@ -9,17 +10,33 @@ const create = (req, res, next) => {
   const createdAt = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
   const active = true;
 
-  db.result(sqlCreateUser, { displayName, username, email, createdAt, active, accountType })
-    .then((result) => {
-      res.status(200)
-        .json({
-          status: 'success',
-          message: `Successfully created ${result.rowCount} user.`
-        });
-    })
-    .catch((err) => {
-      return next(err);
-    });
+  const passwordHash = encryptPassword(password)
+
+  db.result(sqlCreateUser, {
+    displayName,
+    username,
+    email,
+    createdAt,
+    active,
+    accountType,
+    passwordHash
+  })
+  .then((result) => {
+    res.status(200)
+      .json({
+        status: 'success',
+        message: `Successfully created ${result.rowCount} user.`
+      });
+  })
+  .catch((err) => {
+    return next(err);
+  });
+};
+
+const encryptPassword = (password) => {
+  const salt = bcrypt.genSaltSync();
+  const passwordHash = bcrypt.hashSync(password, salt);
+  return passwordHash;
 };
 
 module.exports = {

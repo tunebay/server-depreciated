@@ -4,7 +4,8 @@ INSERT INTO users(
   email,
   created_at,
   active,
-  account_type
+  account_type,
+  password_hash
 )
 VALUES(
   ${displayName},
@@ -12,5 +13,6 @@ VALUES(
   ${email},
   ${createdAt},
   ${active},
-  ${accountType}
+  ${accountType},
+  ${passwordHash}
 );
