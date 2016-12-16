@@ -1,5 +1,5 @@
-const db = require('./database/config');
+const User = require('./models/user');
 
 module.exports = (app) => {
-  app.get('/signup', db.createUser);
+  app.post('/signup', User.create);
 };

@@ -1,18 +1,15 @@
-const path = require('path');
-const db = require('../database/config');
+const db = require('../database/config').db;
+const sql = require('../database/config').sql;
 
-const sql = (file) => {
-  return new db.QueryFile(path.join(__dirname, file), { minify: true });
-};
-
-const sqlCreateUser = sql('./SQL/createUser.sql');
+const sqlCreateUser = sql('./queries/createUser.sql');
 
 const create = (req, res, next) => {
-  const { displayName, email, username, rawPassword } = req.body;
+  const { displayName, email, username, password } = req.body;
   const createdAt = Date.now();
   const active = true;
+  console.log(password);
 
-  db.result(sqlCreateUser, { displayName, email, username, createdAt, active })
+  db.result(sqlCreateUser, { displayName, username, email, createdAt, active })
     .then((result) => {
       console.log('User created: ', result);
     })
