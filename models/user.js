@@ -24,14 +24,18 @@ class User {
       bcrypt.genSalt(10, (err, salt) => {
         bcrypt.hash(this.password, salt, null, (error, hash) => {
           if (err) {
-            console.log('Hashing password failed, see user.js', error);
+            console.log('Hashing password failed, see user.js: ', error);
             reject(error);
           } else {
             this.password = hash;
-            console.log('Hash sucessfull');
+            // Password hashed, safe to save.
             db.result(sqlCreateUser, this)
               .then((result) => {
                 resolve(result);
+              })
+              .catch((err) => {
+                console.log('Saving user failed see user.js ', err);
+                reject(err);
               });
           }
         });
@@ -41,15 +45,3 @@ class User {
 }
 
 module.exports = User;
-
-// return bcrypt.genSalt(10, (err, salt) => {
-//   if (err) { console.log(err); }
-//
-//   return bcrypt.hash(this.password, salt, null, (error, hash) => {
-//     if (error) { console.log(error); }
-//     this.password = hash;
-//     console.log('IN THE SAVE ', this);
-//     console.log(db.result(sqlCreateUser, this));
-//     return db.result(sqlCreateUser, this);
-//   });
-// });
