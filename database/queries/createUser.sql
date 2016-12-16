@@ -14,5 +14,5 @@ VALUES(
   ${createdAt},
   ${active},
   ${accountType},
-  ${passwordHash}
+  ${password}
 );
