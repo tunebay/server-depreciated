@@ -5,6 +5,7 @@ const db = require('../database/config').db;
 const sql = require('../database/config').sql;
 
 const sqlCreateUser = sql('./queries/createUser.sql');
+const sqlFindUserByEmail = sql('./queries/findUserByEmail.sql');
 
 class User {
   constructor({ displayName, username, email, password, accountType }) {
@@ -18,9 +19,21 @@ class User {
     this.createdAt = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
   }
 
+  static findByEmail(email) {
+    return new Promise((resolve, reject) => {
+      db.oneOrNone(sqlFindUserByEmail, email)
+        .then((data) => {
+          resolve(data);
+        })
+        .catch((err) => {
+          console.log(err);
+          reject(err);
+        });
+    });
+  }
+
   save() {
     return new Promise((resolve, reject) => {
-      console.log('**** THIS *****', this);
       bcrypt.genSalt(10, (err, salt) => {
         bcrypt.hash(this.password, salt, null, (error, hash) => {
           if (err) {
