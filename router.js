@@ -1,5 +1,5 @@
-const User = require('./models/user');
+const Authentication = require('./controllers/authentication');
 
 module.exports = (app) => {
-  app.post('/signup', User.create);
+  app.post('/signup', Authentication.signup);
 };
