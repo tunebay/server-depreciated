@@ -27,8 +27,12 @@ class User {
             console.log('Hashing password failed, see user.js', error);
             reject(error);
           } else {
+            this.password = hash;
             console.log('Hash sucessfull');
-            resolve(hash);
+            db.result(sqlCreateUser, this)
+              .then((result) => {
+                resolve(result);
+              });
           }
         });
       });
