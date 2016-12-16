@@ -3,5 +3,14 @@ INSERT INTO users(
   username,
   email,
   created_at,
-  active)
-VALUES(${displayName}, ${username}, ${email}, ${createdAt}, ${active});
+  active,
+  account_type
+)
+VALUES(
+  ${displayName},
+  ${username},
+  ${email},
+  ${createdAt},
+  ${active},
+  ${accountType}
+);

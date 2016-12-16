@@ -1,20 +1,23 @@
 const db = require('../database/config').db;
 const sql = require('../database/config').sql;
+const moment = require('moment');
 
 const sqlCreateUser = sql('./queries/createUser.sql');
 
 const create = (req, res, next) => {
-  const { displayName, email, username, password } = req.body;
-  const createdAt = Date.now();
+  const { displayName, email, username, password, accountType } = req.body;
+  const createdAt = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
   const active = true;
-  console.log(password);
 
-  db.result(sqlCreateUser, { displayName, username, email, createdAt, active })
+  db.result(sqlCreateUser, { displayName, username, email, createdAt, active, accountType })
     .then((result) => {
-      console.log('User created: ', result);
+      res.status(200)
+        .json({
+          status: 'success',
+          message: `Successfully created ${result.rowCount} user.`
+        });
     })
     .catch((err) => {
-      console.log(err);
       return next(err);
     });
 };
