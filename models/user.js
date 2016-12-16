@@ -6,19 +6,13 @@ const sql = require('../database/config').sql;
 const sqlCreateUser = sql('./queries/createUser.sql');
 
 const create = (req, res, next) => {
-  const { displayName, email, username, password, accountType } = req.body;
   const createdAt = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
   const active = true;
 
-  const user = {
-    displayName,
-    username,
-    email,
-    password, // password is raw here. DO NOT SAVE
-    accountType,
+  const user = Object.assign({}, req.body, {
     active,
     createdAt
-  };
+  });
 
   bcrypt.genSalt(10, (err, salt) => {
     if (err) { return next(err); }
