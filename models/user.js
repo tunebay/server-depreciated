@@ -6,6 +6,7 @@ const sql = require('../database/config').sql;
 
 const sqlCreateUser = sql('./queries/createUser.sql');
 const sqlFindUserByEmail = sql('./queries/findUserByEmail.sql');
+const sqlFindUserByUsername = sql('./queries/findUserByUsername.sql');
 
 class User {
   constructor({ displayName, username, email, password, accountType }) {
@@ -22,6 +23,19 @@ class User {
   static findByEmail(email) {
     return new Promise((resolve, reject) => {
       db.oneOrNone(sqlFindUserByEmail, email)
+        .then((data) => {
+          resolve(data);
+        })
+        .catch((err) => {
+          console.log('Error finding oneOrNone by email: user.js', err);
+          reject(err);
+        });
+    });
+  }
+
+  static findByUsername(email) {
+    return new Promise((resolve, reject) => {
+      db.oneOrNone(sqlFindUserByUsername, email)
         .then((data) => {
           resolve(data);
         })
