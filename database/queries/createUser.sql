@@ -15,4 +15,5 @@ VALUES(
   ${active},
   ${accountType},
   ${password}
-);
+)
+RETURNING *;

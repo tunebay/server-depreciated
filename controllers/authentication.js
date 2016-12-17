@@ -4,27 +4,28 @@ exports.signup = (req, res, next) => {
   const user = new User(req.body);
 
   User.findByUsername(req.body.username)
-    .then((foundUser) => {
-      if (foundUser) {
+    .then((foundUsername) => {
+      if (foundUsername) {
         return res.status(422)
           .json({
             error: `The username ${user.username} is not available.`
           });
       }
       return User.findByEmail(req.body.email)
-        .then((data) => {
-          if (data) {
+        .then((foundEmail) => {
+          if (foundEmail) {
             return res.status(422)
               .json({
                 error: 'This email is already in use.'
               });
           }
           return user.save()
-            .then((result) => {
+            .then((userRecord) => {
               res.status(200)
                 .json({
                   status: 'success',
-                  message: `Successfully created ${result.rowCount} user.`
+                  message: 'Successfully created user.',
+                  token: `${userRecord.id}`
                 });
             });
         });

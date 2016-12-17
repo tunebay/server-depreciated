@@ -56,8 +56,8 @@ class User {
           }
 
           this.password = hash;
-          db.result(sqlCreateUser, this)
-            .then(result => resolve(result))
+          db.one(sqlCreateUser, this)
+            .then(data => resolve(data))
             .catch((error) => {
               console.log('Saving user failed see user.js ', error);
               reject(error);
