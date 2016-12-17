@@ -26,7 +26,7 @@ class User {
           resolve(data);
         })
         .catch((err) => {
-          console.log(err);
+          console.log('Error finding oneOrNone by email: user.js', err);
           reject(err);
         });
     });

@@ -6,15 +6,22 @@ exports.signup = (req, res, next) => {
 
   User.findByEmail(email)
     .then((data) => {
-      console.log(data);
-    });
-
-  user.save()
-    .then((result) => {
-      res.status(200)
-        .json({
-          status: 'success',
-          message: `Successfully created ${result.rowCount} user.`
+      if (data) {
+        res.status(422)
+          .json({
+            error: 'This email is already in use.'
+          });
+      }
+      user.save()
+        .then((result) => {
+          res.status(200)
+            .json({
+              status: 'success',
+              message: `Successfully created ${result.rowCount} user.`
+            });
         });
+    })
+    .catch((error) => {
+      console.log(error);
     });
 };
