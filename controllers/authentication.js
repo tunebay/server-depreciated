@@ -7,12 +7,12 @@ exports.signup = (req, res, next) => {
   User.findByEmail(email)
     .then((data) => {
       if (data) {
-        res.status(422)
+        return res.status(422)
           .json({
             error: 'This email is already in use.'
           });
       }
-      user.save()
+      return user.save()
         .then((result) => {
           res.status(200)
             .json({
@@ -22,6 +22,6 @@ exports.signup = (req, res, next) => {
         });
     })
     .catch((error) => {
-      console.log(error);
+      return next(error);
     });
 };

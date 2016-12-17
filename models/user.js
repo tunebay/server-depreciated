@@ -35,22 +35,19 @@ class User {
   save() {
     return new Promise((resolve, reject) => {
       bcrypt.genSalt(10, (err, salt) => {
-        bcrypt.hash(this.password, salt, null, (error, hash) => {
+        bcrypt.hash(this.password, salt, null, (err, hash) => {
           if (err) {
-            console.log('Hashing password failed, see user.js: ', error);
-            reject(error);
-          } else {
-            this.password = hash;
-            // Password hashed, safe to save.
-            db.result(sqlCreateUser, this)
-              .then((result) => {
-                resolve(result);
-              })
-              .catch((err) => {
-                console.log('Saving user failed see user.js ', err);
-                reject(err);
-              });
+            console.log('Hashing password failed, see user.js: ', err);
+            reject(err);
           }
+
+          this.password = hash;
+          db.result(sqlCreateUser, this)
+            .then(result => resolve(result))
+            .catch((error) => {
+              console.log('Saving user failed see user.js ', error);
+              reject(error);
+            });
         });
       });
     });
