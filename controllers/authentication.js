@@ -2,26 +2,35 @@ const User = require('../models/user');
 
 exports.signup = (req, res, next) => {
   const user = new User(req.body);
-  const { email, username } = req.body;
 
-  User.findByEmail(email)
-    .then((data) => {
-      if (data) {
+  User.findByUsername(req.body.username)
+    .then((foundUser) => {
+      if (foundUser) {
         return res.status(422)
           .json({
-            error: 'This email is already in use.'
+            error: `The username ${user.username} is not available.`
           });
       }
-      return user.save()
-        .then((result) => {
-          res.status(200)
-            .json({
-              status: 'success',
-              message: `Successfully created ${result.rowCount} user.`
+      return User.findByEmail(req.body.email)
+        .then((data) => {
+          if (data) {
+            return res.status(422)
+              .json({
+                error: 'This email is already in use.'
+              });
+          }
+          return user.save()
+            .then((result) => {
+              res.status(200)
+                .json({
+                  status: 'success',
+                  message: `Successfully created ${result.rowCount} user.`
+                });
             });
         });
     })
     .catch((error) => {
+      console.log('*** SIGNUP ERROR **** ', error);
       return next(error);
     });
 };

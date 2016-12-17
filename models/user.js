@@ -33,14 +33,14 @@ class User {
     });
   }
 
-  static findByUsername(email) {
+  static findByUsername(username) {
     return new Promise((resolve, reject) => {
-      db.oneOrNone(sqlFindUserByUsername, email)
+      db.oneOrNone(sqlFindUserByUsername, username)
         .then((data) => {
           resolve(data);
         })
         .catch((err) => {
-          console.log('Error finding oneOrNone by email: user.js', err);
+          console.log('Error finding oneOrNone by username: user.js', err);
           reject(err);
         });
     });
