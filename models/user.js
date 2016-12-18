@@ -23,24 +23,16 @@ class User {
   static findByEmail(email) {
     return new Promise((resolve, reject) => {
       db.oneOrNone(sqlFindUserByEmail, email)
-        .then((data) => {
-          resolve(data);
-        })
-        .catch((err) => {
-          reject(err);
-        });
+      .then(data => resolve(data))
+      .catch(error => reject(error));
     });
   }
 
   static findByUsername(username) {
     return new Promise((resolve, reject) => {
       db.oneOrNone(sqlFindUserByUsername, username)
-        .then((data) => {
-          resolve(data);
-        })
-        .catch((err) => {
-          reject(err);
-        });
+      .then(data => resolve(data))
+      .catch(error => reject(error));
     });
   }
 
@@ -48,16 +40,13 @@ class User {
     return new Promise((resolve, reject) => {
       bcrypt.genSalt(10, (err, salt) => {
         bcrypt.hash(this.password, salt, null, (err, hash) => {
-          if (err) {
-            reject(err);
-          }
+          if (err) { reject(err); }
 
           this.password = hash;
+
           db.one(sqlCreateUser, this)
             .then(data => resolve(data))
-            .catch((error) => {
-              reject(error);
-            });
+            .catch(error => reject(error));
         });
       });
     });

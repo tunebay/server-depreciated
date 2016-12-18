@@ -71,4 +71,26 @@ describe('User', () => {
         });
     });
   });
+
+  describe('.findByUsername', () => {
+    beforeEach((done) => {
+      const user = new User({
+        displayName: 'Mali Michael',
+        username: 'malimichael',
+        email: 'mali@tunebay.com',
+        password: 'password',
+        accountType: 'artist'
+      });
+
+      user.save().then(() => done());
+    });
+
+    it('Can find a user by email', (done) => {
+      User.findByUsername('malimichael')
+        .then((res) => {
+          expect(res.email).to.equal('mali@tunebay.com');
+          done();
+        });
+    });
+  });
 });
