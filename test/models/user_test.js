@@ -15,18 +15,60 @@ describe('User', () => {
     expect(user.id).to.not.exist;
   });
 
-  it('saves a user to the database', (done) => {
-    const user = new User({
-      displayName: 'Mali Michael',
-      username: 'malimichael',
-      email: 'mali@tunebay.com',
-      password: 'password',
-      accountType: 'artist'
-    });
-    user.save()
-      .then((res) => {
-        expect(res.id).to.equal(1);
-        done();
+  describe('#save', () => {
+    let user;
+
+    beforeEach(() => {
+      user = new User({
+        displayName: 'Mali Michael',
+        username: 'malimichael',
+        email: 'mali@tunebay.com',
+        password: 'password',
+        accountType: 'artist'
       });
+    });
+
+    it('saves a user to the database', (done) => {
+      user.save()
+        .then((res) => {
+          expect(res.id).to.equal(1);
+          done();
+        });
+    });
+
+    it('returns the saved user object on resolve', (done) => {
+      user.save()
+        .then((res) => {
+          expect(res).to.have.property('display_name');
+          expect(res.display_name).to.equal('Mali Michael');
+          done();
+        });
+    });
+
+    it('Encrypts a users password on saving', (done) => {
+      user.save()
+        .then((res) => {
+          expect(res.password_hash).to.not.equal('password');
+          done();
+        });
+    });
+
+    it('does not save a user with an in use email', (done) => {
+      const imposter = new User({
+        displayName: 'Imposter Michael',
+        username: 'impostermichael',
+        email: 'mali@tunebay.com',
+        password: 'password',
+        accountType: 'artist'
+      });
+      user.save()
+        .then(() => {
+          imposter.save()
+            .catch((err) => {
+              expect(err.detail).to.equal('Key (email)=(mali@tunebay.com) already exists.');
+              done();
+            });
+        });
+    });
   });
 });

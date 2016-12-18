@@ -27,7 +27,6 @@ class User {
           resolve(data);
         })
         .catch((err) => {
-          console.log('Error finding oneOrNone by email: user.js', err);
           reject(err);
         });
     });
@@ -40,7 +39,6 @@ class User {
           resolve(data);
         })
         .catch((err) => {
-          console.log('Error finding oneOrNone by username: user.js', err);
           reject(err);
         });
     });
@@ -51,7 +49,6 @@ class User {
       bcrypt.genSalt(10, (err, salt) => {
         bcrypt.hash(this.password, salt, null, (err, hash) => {
           if (err) {
-            console.log('Hashing password failed, see user.js: ', err);
             reject(err);
           }
 
@@ -59,7 +56,6 @@ class User {
           db.one(sqlCreateUser, this)
             .then(data => resolve(data))
             .catch((error) => {
-              console.log('Saving user failed see user.js ', error);
               reject(error);
             });
         });
