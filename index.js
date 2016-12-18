@@ -1,16 +1,5 @@
-const express = require('express');
 const http = require('http');
-const morgan = require('morgan');
-const bodyParser = require('body-parser');
-const router = require('./router');
-
-const app = express();
-
-// App set up
-
-app.use(morgan('combined'));
-app.use(bodyParser.json());
-router(app);
+const app = require('./app');
 
 // Server set up
 const port = process.env.PORT || 8080;
