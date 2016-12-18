@@ -9,7 +9,7 @@ const app = express();
 // App set up
 
 app.use(morgan('combined'));
-app.use(bodyParser.json({ type: '*/*' }));
+app.use(bodyParser.json());
 router(app);
 
 // Server set up
