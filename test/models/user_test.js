@@ -1,3 +1,4 @@
+/* eslint no-unused-expressions: 0 */
 const expect = require('chai').expect;
 const User = require('../../models/user');
 
@@ -11,9 +12,10 @@ describe('User', () => {
       accountType: 'artist'
     });
     expect(user.username).to.equal('malimichael');
+    expect(user.id).to.not.exist;
   });
 
-  xit('saves a user to the database', (done) => {
+  it('saves a user to the database', (done) => {
     const user = new User({
       displayName: 'Mali Michael',
       username: 'malimichael',
@@ -23,7 +25,7 @@ describe('User', () => {
     });
     user.save()
       .then((res) => {
-        expect(res.id).to.exist();
+        expect(res.id).to.equal(1);
         done();
       });
   });
