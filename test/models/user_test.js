@@ -13,7 +13,7 @@ describe('User', () => {
     expect(user.username).to.equal('malimichael');
   });
 
-  it('saves a user to the database', (done) => {
+  xit('saves a user to the database', (done) => {
     const user = new User({
       displayName: 'Mali Michael',
       username: 'malimichael',
