@@ -25,13 +25,6 @@ const localLogin = new LocalStrategy(localOptions, (email, password, done) => {
     .catch(error => done(error));
 });
 
-// return User.comparePasswords(password, (err, isMatch) => {
-//   if (err) { return done(err); }
-//   if (!isMatch) { return done(null, false); }
-//
-//   return done(null, userRecord);
-// });
-
 // set up options for Jwt Strategy
 const jwtOptions = {
   jwtFromRequest: ExtractJwt.fromHeader('authorization'),
