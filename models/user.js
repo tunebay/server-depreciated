@@ -60,6 +60,16 @@ class User {
       });
     });
   }
+
+  comparePassword(candidatePassword, callback) {
+    console.log('********comparing with: ', this.password_hash);
+    bcrypt.compare(candidatePassword, this.password, (error, isMatch) => {
+      console.log(this.password);
+      if (error) { return callback(error); }
+
+      return callback(null, isMatch);
+    });
+  }
 }
 
 module.exports = User;
