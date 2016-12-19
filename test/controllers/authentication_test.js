@@ -5,7 +5,7 @@ const app = require('../../app');
 
 describe('Authentication controller', () => {
   describe('POST /signup', () => {
-    it('Creates new user', (done) => {
+    it('Creates new user and returns a jwt token', (done) => {
       request(app)
         .post('/signup')
         .send({
@@ -17,6 +17,7 @@ describe('Authentication controller', () => {
         })
         .end((err, res) => {
           expect(res.body.message).to.equal('Successfully created a user.');
+          expect(res.body).to.have.property('token');
           done();
         });
     });
