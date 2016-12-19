@@ -7,11 +7,14 @@ const generateJwtForUser = (user) => {
   return jwt.encode({ sub: user.id, iat: timestamp }, config.jwtSecret);
 };
 
-exports.login = (req, res) => {
-  console.log('hitting log in handler');
+exports.login = (req, res, next) => {
+  User.updateLastLogin(req.user)
+    .then(() => {
+      res.status(200)
+      .json({ token: generateJwtForUser(req.user) });
+    })
+    .catch(error => next(error));
   // User already auth'd
-  res.status(200)
-    .json({ token: generateJwtForUser(req.user) });
 };
 
 exports.signup = (req, res, next) => {

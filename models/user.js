@@ -8,6 +8,11 @@ const sqlCreateUser = sql('./queries/createUser.sql');
 const sqlFindUserByEmail = sql('./queries/findUserByEmail.sql');
 const sqlFindUserByUsername = sql('./queries/findUserByUsername.sql');
 const sqlFindUserById = sql('./queries/findUserById.sql');
+const sqlUpdateLastLogin = sql('./queries/updateLastLogin.sql');
+
+const getCurrentTimestamp = () => {
+  return moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+};
 
 class User {
   constructor({ displayName, username, email, password, accountType }) {
@@ -18,7 +23,7 @@ class User {
     this.active = true;
     this.accountType = accountType;
     this.lastLogin = null;
-    this.createdAt = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+    this.createdAt = getCurrentTimestamp();
   }
 
   static findById(id) {
@@ -68,6 +73,14 @@ class User {
         console.log(isMatch);
         return resolve(isMatch);
       });
+    });
+  }
+
+  static updateLastLogin(userRecord) {
+    return new Promise((resolve, reject) => {
+      db.result(sqlUpdateLastLogin, [getCurrentTimestamp(), true, userRecord.id])
+      .then(data => resolve(data))
+      .catch(error => reject(error));
     });
   }
 }
