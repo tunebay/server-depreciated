@@ -4,7 +4,7 @@
   "description": "Api server for Tunebay",
   "main": "index.js",
   "scripts": {
-    "test": "NODE_ENV=test nodemon --exec 'mocha --recursive'",
+    "test": "NODE_ENV=test nodemon --exec 'mocha --recursive -R nyan'",
     "start": "nodemon index.js"
   },
   "repository": {
