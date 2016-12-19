@@ -61,13 +61,13 @@ class User {
     });
   }
 
-  comparePassword(candidatePassword, callback) {
-    console.log('********comparing with: ', this.password_hash);
-    bcrypt.compare(candidatePassword, this.password, (error, isMatch) => {
-      console.log(this.password);
-      if (error) { return callback(error); }
-
-      return callback(null, isMatch);
+  static comparePasswords(candidatePassword, passwordHash) {
+    return new Promise((resolve, reject) => {
+      bcrypt.compare(candidatePassword, passwordHash, (error, isMatch) => {
+        if (error) { return reject(error); }
+        console.log(isMatch);
+        return resolve(isMatch);
+      });
     });
   }
 }

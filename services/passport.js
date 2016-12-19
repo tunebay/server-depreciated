@@ -12,18 +12,25 @@ const localOptions = {
 
 const localLogin = new LocalStrategy(localOptions, (email, password, done) => {
   User.findByEmail(email)
-    .then((user) => {
-      if (!user) { return done(null, false); }
-      console.log('IN THE LOCAL STRAT', user);
-      return user.comparePassword(password, (err, isMatch) => {
-        if (err) { return done(err); }
-        if (!isMatch) { return done(null, false); }
+    .then((userRecord) => {
+      if (!userRecord) { return done(null, false); }
 
-        return done(null, user);
-      });
+      return User.comparePasswords(password, userRecord.password_hash)
+        .then((isMatch) => {
+          if (!isMatch) { return done(null, false); }
+
+          return done(null, userRecord);
+        });
     })
     .catch(error => done(error));
 });
+
+// return User.comparePasswords(password, (err, isMatch) => {
+//   if (err) { return done(err); }
+//   if (!isMatch) { return done(null, false); }
+//
+//   return done(null, userRecord);
+// });
 
 // set up options for Jwt Strategy
 const jwtOptions = {
