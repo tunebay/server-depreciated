@@ -7,6 +7,7 @@ const sql = require('../database/config').sql;
 const sqlCreateUser = sql('./queries/createUser.sql');
 const sqlFindUserByEmail = sql('./queries/findUserByEmail.sql');
 const sqlFindUserByUsername = sql('./queries/findUserByUsername.sql');
+const sqlFindUserById = sql('./queries/findUserById.sql');
 
 class User {
   constructor({ displayName, username, email, password, accountType }) {
@@ -18,6 +19,14 @@ class User {
     this.accountType = accountType;
     this.lastLogin = null;
     this.createdAt = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+  }
+
+  static findById(id) {
+    return new Promise((resolve, reject) => {
+      db.oneOrNone(sqlFindUserById, id)
+      .then(data => resolve(data))
+      .catch(error => reject(error));
+    });
   }
 
   static findByEmail(email) {
