@@ -97,7 +97,7 @@ describe('Authentication controller', () => {
       request(app)
         .post('/login')
         .send({
-          email: 'mali@tunebay.com',
+          emailOrUsername: 'mali@tunebay.com',
           password: 'password'
         })
         .end((err, res) => {
@@ -110,7 +110,7 @@ describe('Authentication controller', () => {
       request(app)
         .post('/login')
         .send({
-          email: 'mali@tunebay.com',
+          emailOrUsername: 'mali@tunebay.com',
           password: 'badpassword'
         })
         .expect(401)
@@ -125,7 +125,7 @@ describe('Authentication controller', () => {
       request(app)
         .post('/login')
         .send({
-          email: 'malimichael',
+          emailOrUsername: 'malimichael',
           password: 'password'
         })
         .end((err, res) => {
