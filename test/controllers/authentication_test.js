@@ -80,7 +80,7 @@ describe('Authentication controller', () => {
   });
 
   describe('POST /login', () => {
-    it('Can successfully login a user with valid credentials', (done) => {
+    beforeEach((done) => {
       request(app)
         .post('/signup')
         .send({
@@ -90,43 +90,34 @@ describe('Authentication controller', () => {
           password: 'password',
           accountType: 'artist'
         })
-        .end(() => {
-          request(app)
-            .post('/login')
-            .send({
-              email: 'mali@tunebay.com',
-              password: 'password'
-            })
-            .end((err, res) => {
-              expect(res.body.message).to.equal('Successfully logged in as malimichael');
-              done();
-            });
+        .end(() => done());
+    });
+
+    it('Can successfully login a user with valid credentials', (done) => {
+      request(app)
+        .post('/login')
+        .send({
+          email: 'mali@tunebay.com',
+          password: 'password'
+        })
+        .end((err, res) => {
+          expect(res.body.message).to.equal('Successfully logged in as malimichael');
+          done();
         });
     });
 
     it('Denies entry to user with invalid credentials', (done) => {
       request(app)
-        .post('/signup')
+        .post('/login')
         .send({
-          displayName: 'Mali Michael',
-          username: 'malimichael',
           email: 'mali@tunebay.com',
-          password: 'password',
-          accountType: 'artist'
+          password: 'badpassword'
         })
-        .end(() => {
-          request(app)
-            .post('/login')
-            .send({
-              email: 'mali@tunebay.com',
-              password: 'badpassword'
-            })
-            .expect(401)
-            .end((err, res) => {
-              if (err) return done(err);
-              expect(res.text).to.equal('Unauthorized');
-              return done();
-            });
+        .expect(401)
+        .end((err, res) => {
+          if (err) return done(err);
+          expect(res.text).to.equal('Unauthorized');
+          return done();
         });
     });
   });
