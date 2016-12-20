@@ -14,5 +14,11 @@ module.exports = (app) => {
   });
   app.post('/login', requireLogin, Authentication.login);
   app.post('/signup', Authentication.signup);
-  app.get('/:username', Profile.loadUser);
+  app.get('/users/:id', Profile.loadUser);
+  app.get('/*', (req, res) => {
+    res.status(404)
+      .json({
+        error: 'Page not found'
+      });
+  });
 };
