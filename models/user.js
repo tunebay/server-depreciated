@@ -69,8 +69,7 @@ class User {
   static comparePasswords(candidatePassword, passwordHash) {
     return new Promise((resolve, reject) => {
       bcrypt.compare(candidatePassword, passwordHash, (error, isMatch) => {
-        if (error) { return reject(error); }
-        console.log(isMatch);
+        if (error) return reject(error);
         return resolve(isMatch);
       });
     });
