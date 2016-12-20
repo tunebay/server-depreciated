@@ -7,7 +7,7 @@ const config = require('../config');
 
 // Create LocalStrategy
 const localOptions = {
-  usernameField: 'email'
+  usernameField: 'emailOrUsername'
 };
 
 const localLogin = new LocalStrategy(localOptions, (emailOrUsername, password, done) => {
