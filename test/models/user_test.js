@@ -3,31 +3,25 @@ const expect = require('chai').expect;
 const User = require('../../models/user');
 
 describe('User', () => {
-  it('instantiates a user object', () => {
-    const user = new User({
+  let user;
+
+  beforeEach(() => {
+    user = new User({
       displayName: 'Mali Michael',
       username: 'malimichael',
       email: 'mali@tunebay.com',
       password: 'password',
       accountType: 'artist'
     });
+  });
+
+  it('instantiates a user object', () => {
     expect(user.username).to.equal('malimichael');
+    expect(user.email).to.equal('mali@tunebay.com');
     expect(user.id).to.not.exist;
   });
 
   describe('#save', () => {
-    let user;
-
-    beforeEach(() => {
-      user = new User({
-        displayName: 'Mali Michael',
-        username: 'malimichael',
-        email: 'mali@tunebay.com',
-        password: 'password',
-        accountType: 'artist'
-      });
-    });
-
     it('saves a user to the database', (done) => {
       user.save()
         .then((res) => {
@@ -72,21 +66,29 @@ describe('User', () => {
     });
   });
 
-  describe('.findByUsername', () => {
+  describe('.findBy*', () => {
     beforeEach((done) => {
-      const user = new User({
-        displayName: 'Mali Michael',
-        username: 'malimichael',
-        email: 'mali@tunebay.com',
-        password: 'password',
-        accountType: 'artist'
-      });
-
       user.save().then(() => done());
     });
 
-    it('Can find a user by email', (done) => {
+    it('Can find a user by username', (done) => {
       User.findByUsername('malimichael')
+        .then((res) => {
+          expect(res.email).to.equal('mali@tunebay.com');
+          done();
+        });
+    });
+
+    it('Can find a user by email', (done) => {
+      User.findByEmail('mali@tunebay.com')
+        .then((res) => {
+          expect(res.email).to.equal('mali@tunebay.com');
+          done();
+        });
+    });
+
+    it('Can find a user by id', (done) => {
+      User.findById(1)
         .then((res) => {
           expect(res.email).to.equal('mali@tunebay.com');
           done();

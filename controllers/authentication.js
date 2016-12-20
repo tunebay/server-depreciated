@@ -8,13 +8,17 @@ const generateJwtForUser = (user) => {
 };
 
 exports.login = (req, res, next) => {
+  // User already auth'd
   User.updateLastLogin(req.user)
     .then(() => {
       res.status(200)
-      .json({ token: generateJwtForUser(req.user) });
+      .json({
+        status: 'success',
+        message: `Successfully logged in as ${req.user.username}`,
+        token: generateJwtForUser(req.user)
+      });
     })
     .catch(error => next(error));
-  // User already auth'd
 };
 
 exports.signup = (req, res, next) => {

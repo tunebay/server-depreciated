@@ -22,7 +22,7 @@ describe('Authentication controller', () => {
         });
     });
 
-    it('responds with an error if email is in use', (done) => {
+    it('responds with an error if username is in use', (done) => {
       request(app)
         .post('/signup')
         .send({
@@ -42,6 +42,7 @@ describe('Authentication controller', () => {
               password: 'password',
               accountType: 'artist'
             })
+            .expect(200)
             .end((err, res) => {
               expect(res.body.error).to.equal('The username malimichael is not available.');
               done();
@@ -69,9 +70,62 @@ describe('Authentication controller', () => {
               password: 'password',
               accountType: 'artist'
             })
+            .expect(200)
             .end((err, res) => {
               expect(res.body.error).to.equal('This email is already in use.');
               done();
+            });
+        });
+    });
+  });
+
+  describe('POST /login', () => {
+    it('Can successfully login a user with valid credentials', (done) => {
+      request(app)
+        .post('/signup')
+        .send({
+          displayName: 'Mali Michael',
+          username: 'malimichael',
+          email: 'mali@tunebay.com',
+          password: 'password',
+          accountType: 'artist'
+        })
+        .end(() => {
+          request(app)
+            .post('/login')
+            .send({
+              email: 'mali@tunebay.com',
+              password: 'password'
+            })
+            .end((err, res) => {
+              expect(res.body.message).to.equal('Successfully logged in as malimichael');
+              done();
+            });
+        });
+    });
+
+    it('Denies entry to user with invalid credentials', (done) => {
+      request(app)
+        .post('/signup')
+        .send({
+          displayName: 'Mali Michael',
+          username: 'malimichael',
+          email: 'mali@tunebay.com',
+          password: 'password',
+          accountType: 'artist'
+        })
+        .end(() => {
+          request(app)
+            .post('/login')
+            .send({
+              email: 'mali@tunebay.com',
+              password: 'badpassword'
+            })
+            .expect(401)
+            .end((err, res) => {
+              if (err) return done(err);
+              expect(res.text).to.equal('Unauthorized');
+              return done();
             });
         });
     });
