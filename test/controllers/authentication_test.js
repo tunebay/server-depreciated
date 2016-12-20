@@ -120,5 +120,18 @@ describe('Authentication controller', () => {
           return done();
         });
     });
+
+    it('allows for login with username', (done) => {
+      request(app)
+        .post('/login')
+        .send({
+          email: 'malimichael',
+          password: 'password'
+        })
+        .end((err, res) => {
+          expect(res.body.message).to.equal('Successfully logged in as malimichael');
+          done();
+        });
+    });
   });
 });

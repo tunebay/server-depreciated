@@ -14,6 +14,10 @@ const getCurrentTimestamp = () => {
   return moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
 };
 
+const isEmail = (credential) => {
+  if (credential.match(/@/)) return true;
+};
+
 class User {
   constructor({ displayName, username, email, password, accountType }) {
     this.displayName = displayName;
@@ -47,6 +51,20 @@ class User {
       db.oneOrNone(sqlFindUserByUsername, username)
       .then(data => resolve(data))
       .catch(error => reject(error));
+    });
+  }
+
+  static findByEmailOrUsername(credential) {
+    return new Promise((resolve, reject) => {
+      if (isEmail(credential)) {
+        db.oneOrNone(sqlFindUserByEmail, credential)
+        .then(data => resolve(data))
+        .catch(error => reject(error));
+      } else {
+        db.oneOrNone(sqlFindUserByUsername, credential)
+        .then(data => resolve(data))
+        .catch(error => reject(error));
+      }
     });
   }
 

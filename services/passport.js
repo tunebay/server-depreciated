@@ -10,8 +10,8 @@ const localOptions = {
   usernameField: 'email'
 };
 
-const localLogin = new LocalStrategy(localOptions, (email, password, done) => {
-  User.findByEmail(email)
+const localLogin = new LocalStrategy(localOptions, (emailOrUsername, password, done) => {
+  User.findByEmailOrUsername(emailOrUsername)
     .then((userRecord) => {
       if (!userRecord) { return done(null, false); }
 
