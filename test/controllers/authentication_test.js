@@ -2,6 +2,7 @@
 const expect = require('chai').expect;
 const request = require('supertest');
 const app = require('../../app');
+const { getCurrentTimestamp } = require('../../services/helpers');
 
 describe('Authentication controller', () => {
   describe('POST /signup', () => {
@@ -130,6 +131,20 @@ describe('Authentication controller', () => {
         })
         .end((err, res) => {
           expect(res.body.message).to.equal('Successfully logged in as malimichael');
+          done();
+        });
+    });
+
+    it('updates last login timestamp', (done) => {
+      request(app)
+        .post('/login')
+        .send({
+          emailOrUsername: 'malimichael',
+          password: 'password'
+        })
+        .end((err, res) => {
+          const loginTime = res.body.loginTime.replace('.000Z', '').replace('T', ' ');
+          expect(loginTime).to.equal(getCurrentTimestamp());
           done();
         });
     });

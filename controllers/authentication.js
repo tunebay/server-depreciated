@@ -1,4 +1,5 @@
 const jwt = require('jwt-simple');
+
 const User = require('../models/user');
 const config = require('../config');
 
@@ -10,11 +11,12 @@ const generateJwtForUser = (user) => {
 exports.login = (req, res, next) => {
   // User already auth'd
   User.updateLastLogin(req.user)
-    .then(() => {
+    .then((userRecord) => {
       res.status(200)
       .json({
         status: 'success',
-        message: `Successfully logged in as ${req.user.username}`,
+        message: `Successfully logged in as ${userRecord.username}`,
+        loginTime: userRecord.last_login,
         token: generateJwtForUser(req.user)
       });
     })

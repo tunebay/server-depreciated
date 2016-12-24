@@ -1,8 +1,7 @@
 const bcrypt = require('bcrypt-nodejs');
-const moment = require('moment');
 
-const db = require('../database/config').db;
-const sql = require('../database/config').sql;
+const { getCurrentTimestamp } = require('../services/helpers');
+const { db, sql } = require('../database/config');
 
 const sqlCreateUser = sql('./queries/createUser.sql');
 const sqlFindUserByEmail = sql('./queries/findUserByEmail.sql');
@@ -10,12 +9,9 @@ const sqlFindUserByUsername = sql('./queries/findUserByUsername.sql');
 const sqlFindUserById = sql('./queries/findUserById.sql');
 const sqlUpdateLastLogin = sql('./queries/updateLastLogin.sql');
 
-const getCurrentTimestamp = () => {
-  return moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
-};
-
 const isEmail = (credential) => {
   if (credential.match(/@/)) return true;
+  return false;
 };
 
 class User {
@@ -28,6 +24,22 @@ class User {
     this.accountType = accountType;
     this.lastLogin = null;
     this.createdAt = getCurrentTimestamp();
+  }
+
+  save() {
+    return new Promise((resolve, reject) => {
+      bcrypt.genSalt(10, (err, salt) => {
+        bcrypt.hash(this.password, salt, null, (err, hash) => {
+          if (err) { reject(err); }
+
+          this.password = hash;
+
+          db.one(sqlCreateUser, this)
+            .then(data => resolve(data))
+            .catch(error => reject(error));
+        });
+      });
+    });
   }
 
   static findById(id) {
@@ -68,22 +80,6 @@ class User {
     });
   }
 
-  save() {
-    return new Promise((resolve, reject) => {
-      bcrypt.genSalt(10, (err, salt) => {
-        bcrypt.hash(this.password, salt, null, (err, hash) => {
-          if (err) { reject(err); }
-
-          this.password = hash;
-
-          db.one(sqlCreateUser, this)
-            .then(data => resolve(data))
-            .catch(error => reject(error));
-        });
-      });
-    });
-  }
-
   static comparePasswords(candidatePassword, passwordHash) {
     return new Promise((resolve, reject) => {
       bcrypt.compare(candidatePassword, passwordHash, (error, isMatch) => {
@@ -95,7 +91,7 @@ class User {
 
   static updateLastLogin(userRecord) {
     return new Promise((resolve, reject) => {
-      db.result(sqlUpdateLastLogin, [getCurrentTimestamp(), true, userRecord.id])
+      db.one(sqlUpdateLastLogin, [getCurrentTimestamp(), true, userRecord.id])
       .then(data => resolve(data))
       .catch(error => reject(error));
     });
