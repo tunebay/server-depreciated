@@ -11,12 +11,11 @@ const generateJwtForUser = (user) => {
 exports.login = (req, res, next) => {
   // User already auth'd
   User.updateLastLogin(req.user)
-    .then((userRecord) => {
+    .then(() => {
       res.status(200)
       .json({
         status: 'success',
-        message: `Successfully logged in as ${userRecord.username}`,
-        loginTime: userRecord.last_login,
+        message: 'ok',
         token: generateJwtForUser(req.user)
       });
     })
