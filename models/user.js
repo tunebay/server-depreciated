@@ -15,13 +15,13 @@ const isEmail = (credential) => {
 };
 
 class User {
-  constructor({ displayName, username, email, password, accountType }) {
+  constructor({ displayName, username, email, password }) {
     this.displayName = displayName;
     this.username = username;
     this.email = email;
     this.password = password;
     this.active = true;
-    this.accountType = accountType;
+    this.accountType = 'unknown';
     this.lastLogin = null;
     this.createdAt = getCurrentTimestamp();
   }
