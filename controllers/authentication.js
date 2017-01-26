@@ -82,7 +82,7 @@ exports.emailcheck = (req, res, next) => {
       if (foundEmail) {
         return res
           .json({
-            error: `The username ${foundEmail.email} is not available.`,
+            error: 'This email is already in use.',
             status: 'fail'
           });
       }
