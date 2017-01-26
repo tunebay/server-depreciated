@@ -70,7 +70,25 @@ exports.usernamecheck = (req, res, next) => {
       }
       return res
         .json({
-          status: 'ok'
+          status: 'success'
+        });
+    })
+    .catch(error => next(error));
+};
+
+exports.emailcheck = (req, res, next) => {
+  User.findByEmail(req.body.email)
+    .then((foundEmail) => {
+      if (foundEmail) {
+        return res
+          .json({
+            error: `The username ${foundEmail.email} is not available.`,
+            status: 'fail'
+          });
+      }
+      return res
+        .json({
+          status: 'success'
         });
     })
     .catch(error => next(error));
