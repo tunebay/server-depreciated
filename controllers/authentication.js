@@ -57,3 +57,21 @@ exports.signup = (req, res, next) => {
       return next(error);
     });
 };
+
+exports.usernamecheck = (req, res, next) => {
+  User.findByUsername(req.body.username)
+    .then((foundUsername) => {
+      if (foundUsername) {
+        return res
+          .json({
+            error: `The username ${foundUsername.username} is not available.`,
+            status: 'fail'
+          });
+      }
+      return res
+        .json({
+          status: 'ok'
+        });
+    })
+    .catch(error => next(error));
+};

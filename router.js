@@ -14,6 +14,7 @@ module.exports = (app) => {
   });
   app.post('/login', requireLogin, Authentication.login);
   app.post('/signup', Authentication.signup);
+  app.post('/signup/usernamecheck', Authentication.usernamecheck);
   app.get('/users/:id', Profile.loadUser);
   app.get('/*', (req, res) => {
     res.status(404)
