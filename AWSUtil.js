@@ -18,7 +18,7 @@ exports.sign = (req, res) => {
     Key: req.query.filename,
     Expires: 60,
     ContentType: req.query.filetype,
-    ACL: 'private'
+    ACL: 'public-read'
   };
 
   s3.getSignedUrl('putObject', params, (err, data) => {
