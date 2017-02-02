@@ -7,8 +7,6 @@ const requireLogin = passport.authenticate('local', { session: false });
 const AWSUtil = require('./AWSUtil');
 const Authentication = require('./controllers/authentication');
 const Profile = require('./controllers/profile');
-const Upload = require('./controllers/upload');
-
 
 module.exports = (app) => {
   app.get('/', requireAuth, (req, res) => {
