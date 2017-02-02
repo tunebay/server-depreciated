@@ -4,8 +4,10 @@ const passport = require('passport');
 const requireAuth = passport.authenticate('jwt', { session: false });
 const requireLogin = passport.authenticate('local', { session: false });
 
+const AWSUtil = require('./AWSUtil');
 const Authentication = require('./controllers/authentication');
 const Profile = require('./controllers/profile');
+const Upload = require('./controllers/upload');
 
 
 module.exports = (app) => {
@@ -17,6 +19,7 @@ module.exports = (app) => {
   app.post('/signup/usernamecheck', Authentication.usernamecheck);
   app.post('/signup/emailcheck', Authentication.emailcheck);
   app.get('/user/:username', Profile.loadUserByUsername);
+  app.get('/upload/s3/sign', AWSUtil.sign);
   app.get('/*', (req, res) => {
     res.status(404)
       .json({
