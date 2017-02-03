@@ -16,7 +16,14 @@ exports.login = (req, res, next) => {
       .json({
         status: 'success',
         message: 'ok',
-        token: generateJwtForUser(req.user)
+        token: generateJwtForUser(req.user),
+        user: {
+          username: req.user.username,
+          email: req.user.email,
+          displayName: req.user.display_name,
+          id: req.user.id,
+          accountType: req.user.account_type
+        }
       });
     })
     .catch(error => next(error));
@@ -46,8 +53,15 @@ exports.signup = (req, res, next) => {
               res.status(200)
                 .json({
                   status: 'success',
-                  message: 'Successfully created a user.',
-                  token: generateJwtForUser(userRecord)
+                  message: 'ok',
+                  token: generateJwtForUser(userRecord),
+                  user: {
+                    username: userRecord.username,
+                    email: userRecord.email,
+                    displayName: userRecord.display_name,
+                    id: userRecord.id,
+                    accountType: userRecord.account_type
+                  }
                 });
             });
         });
