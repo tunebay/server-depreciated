@@ -3,11 +3,12 @@ const bcrypt = require('bcrypt-nodejs');
 const { getCurrentTimestamp } = require('../services/helpers');
 const { db, sql } = require('../database/config');
 
-const sqlCreateUser = sql('./queries/createUser.sql');
-const sqlFindUserByEmail = sql('./queries/findUserByEmail.sql');
-const sqlFindUserByUsername = sql('./queries/findUserByUsername.sql');
-const sqlFindUserById = sql('./queries/findUserById.sql');
-const sqlUpdateLastLogin = sql('./queries/updateLastLogin.sql');
+// file paths relative sql function in /database/config.js
+const sqlCreateUser = sql('./queries/user/createUser.sql');
+const sqlFindUserByEmail = sql('./queries/user/findUserByEmail.sql');
+const sqlFindUserByUsername = sql('./queries/user/findUserByUsername.sql');
+const sqlFindUserById = sql('./queries/user/findUserById.sql');
+const sqlUpdateLastLogin = sql('./queries/user/updateLastLogin.sql');
 
 const isEmail = (credential) => {
   if (credential.match(/@/)) return true;

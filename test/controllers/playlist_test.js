@@ -4,10 +4,10 @@ const request = require('supertest');
 const app = require('../../app');
 
 describe('Playlist controller', () => {
-  describe('POST /playlist/new', () => {
+  describe('POST /playlists/new', () => {
     it('Creates a new playlist', (done) => {
       request(app)
-        .post('/playlist/new')
+        .post('/playlists/new')
         .send({
           title: 'Alchemy',
           playlistType: 'album',
