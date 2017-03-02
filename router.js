@@ -17,7 +17,7 @@ module.exports = (app) => {
   app.post('/signup', Authentication.signup);
   app.post('/signup/usernamecheck', Authentication.usernamecheck);
   app.post('/signup/emailcheck', Authentication.emailcheck);
-  app.post('/playlists/new', Playlist.create);
+  app.post('/playlists/new', requireAuth, Playlist.create);
   app.get('/user/:username', Profile.loadUserByUsername);
   app.get('/upload/s3/sign', AWSUtil.sign);
   app.get('/*', (req, res) => {
