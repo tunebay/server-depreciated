@@ -11,7 +11,7 @@ describe('Authentication controller', () => {
         .send({
           displayName: 'Mali Michael',
           username: 'malimichael',
-          email: 'mali@tunebay.com',
+          email: 'mali1@tunebay.com',
           password: 'password',
           accountType: 'artist'
         })
@@ -28,7 +28,7 @@ describe('Authentication controller', () => {
         .send({
           displayName: 'Mali Michael',
           username: 'malimichael',
-          email: 'mali@tunebay.com',
+          email: 'mali2@tunebay.com',
           password: 'password',
           accountType: 'artist'
         })
@@ -56,7 +56,7 @@ describe('Authentication controller', () => {
         .send({
           displayName: 'Mali Michael',
           username: 'malimichael',
-          email: 'mali@tunebay.com',
+          email: 'mali4@tunebay.com',
           password: 'password',
           accountType: 'artist'
         })
@@ -66,7 +66,7 @@ describe('Authentication controller', () => {
             .send({
               displayName: 'Imposter Michael',
               username: 'imposter',
-              email: 'mali@tunebay.com',
+              email: 'mali4@tunebay.com',
               password: 'password',
               accountType: 'artist'
             })
@@ -86,7 +86,7 @@ describe('Authentication controller', () => {
         .send({
           displayName: 'Mali Michael',
           username: 'malimichael',
-          email: 'mali@tunebay.com',
+          email: 'mali3@tunebay.com',
           password: 'password',
           accountType: 'artist'
         })
@@ -97,7 +97,7 @@ describe('Authentication controller', () => {
       request(app)
         .post('/login')
         .send({
-          emailOrUsername: 'mali@tunebay.com',
+          emailOrUsername: 'mali3@tunebay.com',
           password: 'password'
         })
         .end((err, res) => {
@@ -110,7 +110,7 @@ describe('Authentication controller', () => {
       request(app)
         .post('/login')
         .send({
-          emailOrUsername: 'mali@tunebay.com',
+          emailOrUsername: 'mali3@tunebay.com',
           password: 'badpassword'
         })
         .expect(401)

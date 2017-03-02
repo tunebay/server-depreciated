@@ -4,7 +4,7 @@ const passport = require('passport');
 const requireAuth = passport.authenticate('jwt', { session: false });
 const requireLogin = passport.authenticate('local', { session: false });
 
-const AWSUtil = require('./AWSUtil');
+const AWS = require('./util/AWSUtil');
 const Authentication = require('./controllers/authentication');
 const Profile = require('./controllers/profile');
 const Playlist = require('./controllers/playlist');
@@ -19,7 +19,7 @@ module.exports = (app) => {
   app.post('/signup/emailcheck', Authentication.emailcheck);
   app.post('/playlists/new', requireAuth, Playlist.create);
   app.get('/user/:username', Profile.loadUserByUsername);
-  app.get('/upload/s3/sign', AWSUtil.sign);
+  app.get('/upload/s3/sign', AWS.sign);
   app.get('/*', (req, res) => {
     res.status(404)
       .json({
