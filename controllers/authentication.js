@@ -50,7 +50,8 @@ exports.signup = (req, res, next) => {
           }
           return user.save()
             .then((userRecord) => {
-              res.status(200)
+              console.log('ALL OK TO SAVE USER');
+              return res.status(200)
                 .json({
                   status: 'success',
                   message: 'ok',
@@ -68,7 +69,7 @@ exports.signup = (req, res, next) => {
     })
     .catch((error) => {
       console.log('*** SIGNUP ERROR **** ', error);
-      return next(error);
+      next(error);
     });
 };
 
