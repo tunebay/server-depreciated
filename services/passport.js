@@ -32,6 +32,7 @@ const jwtOptions = {
 };
 
 // Create jwt Strategy
+// This is what requireAuth from router uses to verify token
 const jwtLogin = new JwtStrategy(jwtOptions, (payload, done) => {
   User.findById(payload.sub)
     .then((user) => {
