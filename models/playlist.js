@@ -1,5 +1,5 @@
 const { db, sql } = require('../database/config');
-const moment = require('moment');
+const { getCurrentTimestamp } = require('../services/helpers');
 
 // file paths relative sql function in /database/config.js
 const sqlCreatePlaylist = sql('./queries/playlist/createPlaylist.sql');
@@ -15,7 +15,7 @@ class Playlist {
     this.canPayMore = playlist.canPayMore;
     this.lengthInSeconds = playlist.lengthInSeconds;
     this.genre1Id = playlist.genre1Id;
-    this.createdAt = moment();
+    this.createdAt = getCurrentTimestamp();
     // unrequired fields
     this.genre1Id = playlist.genre1Id || null;
     this.genre2Id = playlist.genre2Id || null;
