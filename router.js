@@ -4,7 +4,7 @@ const passport = require('passport');
 const requireAuth = passport.authenticate('jwt', { session: false });
 const requireLogin = passport.authenticate('local', { session: false });
 
-const AWS = require('./util/AWSUtil');
+const AWS = require('./services/AWSUtil');
 const Authentication = require('./controllers/authentication');
 const Profile = require('./controllers/profile');
 const Playlist = require('./controllers/playlist');

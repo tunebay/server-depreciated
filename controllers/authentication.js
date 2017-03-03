@@ -1,12 +1,5 @@
-const jwt = require('jsonwebtoken');
-
 const User = require('../models/user');
-const config = require('../config');
-
-const generateJwtForUser = (user) => {
-  const timestamp = new Date().getTime();
-  return jwt.sign({ sub: user.id, iat: timestamp }, config.jwtSecret);
-};
+const { generateJwtForUser } = require('../services/jwt');
 
 exports.login = (req, res, next) => {
   // User already auth'd
