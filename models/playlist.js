@@ -1,7 +1,7 @@
 const { db, sql } = require('../database/config');
 const { getCurrentTimestamp } = require('../services/helpers');
 
-// file paths relative sql function in /database/config.js
+// file paths relative to 'sql()' function in /database/config.js
 const sqlCreatePlaylist = sql('./queries/playlist/createPlaylist.sql');
 
 class Playlist {
