@@ -3,6 +3,7 @@ const { getCurrentTimestamp } = require('../services/helpers');
 
 // file paths relative to 'sql()' function in /database/config.js
 const sqlCreatePlaylist = sql('./queries/playlist/createPlaylist.sql');
+const sqlInsertGenres = sql('./queries/playlist/insertGenres.sql');
 
 class Playlist {
   constructor(playlist) {
