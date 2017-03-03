@@ -34,7 +34,7 @@ describe('Playlist controller', () => {
           price: 6.99,
           canPayMore: true,
           lengthInSeconds: 3480,
-          genre1Id: 32,
+          genre1Id: 34,
           genre2Id: 14,
           description: 'My debut album for sales exclusively on Tunebay',
           releaseDate: '13/12/2016'

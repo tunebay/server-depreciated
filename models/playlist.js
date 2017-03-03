@@ -17,8 +17,8 @@ class Playlist {
     this.genre1Id = playlist.genre1Id;
     this.createdAt = getCurrentTimestamp();
     // unrequired fields
-    this.genre1Id = playlist.genre1Id || null;
     this.genre2Id = playlist.genre2Id || null;
+    this.genre3Id = playlist.genre3Id || null;
     this.description = playlist.description || null;
     this.releaseDate = playlist.releaseDate || null;
   }
