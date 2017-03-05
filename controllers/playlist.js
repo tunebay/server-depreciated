@@ -8,7 +8,7 @@ exports.create = (req, res, next) => {
       res.status(200)
         .json({
           message: 'ok',
-          id: data.id
+          id: data
         });
     })
     .catch((err) => {

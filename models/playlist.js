@@ -27,8 +27,24 @@ class Playlist {
   save() {
     return new Promise((resolve, reject) => {
       db.one(sqlCreatePlaylist, this)
-        .then(data => resolve(data))
-        .catch(error => reject(error));
+        .then((data) => {
+          const genreData = {
+            playlistId: data.id,
+            genre1Id: this.genre1Id,
+            genre2Id: this.genre2Id,
+            genre3Id: this.genre3Id
+          };
+          console.log('GENRE DATA:', genreData);
+          db.none(sqlInsertGenres, genreData)
+            .then(() => {
+              console.log('UP IN HERE');
+              resolve(genreData.playlistId);
+            }).catch(error => console.log('WHYY', error));
+        })
+        .catch((error) => {
+          console.log('**SAVING PLAYLIST ERROR***', error);
+          reject(error);
+        });
     });
   }
 }
