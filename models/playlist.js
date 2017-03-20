@@ -6,11 +6,11 @@ const sqlCreatePlaylist = sql('./queries/playlist/createPlaylist.sql');
 const sqlInsertGenres = sql('./queries/playlist/insertGenres.sql');
 
 class Playlist {
-  constructor(playlist) {
+  constructor(playlist, userId) {
     // required fields
     this.title = playlist.title;
     this.playlistType = playlist.playlistType;
-    this.userId = playlist.userId;
+    this.userId = userId;
     this.numberOfTracks = playlist.numberOfTracks;
     this.price = playlist.price;
     this.canPayMore = playlist.canPayMore;
