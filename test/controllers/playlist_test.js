@@ -2,6 +2,7 @@
 const expect = require('chai').expect;
 const request = require('supertest');
 const app = require('../../app');
+const { getUserIdFromToken } = require('../../services/jwt');
 
 describe('Playlist controller', () => {
   describe('POST /playlists/new', () => {
@@ -29,7 +30,7 @@ describe('Playlist controller', () => {
         .send({
           title: 'Alchemy',
           playlistType: 'album',
-          userId: 1,
+          userId: getUserIdFromToken(token),
           numberOfTracks: 12,
           price: 6.99,
           canPayMore: true,
