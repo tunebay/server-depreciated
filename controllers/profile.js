@@ -32,7 +32,12 @@ exports.loadUserByUsername = (req, res, next) => {
           .json({
             message: 'Loaded user successfully',
             status: 'success',
-            user: Object.assign(userData, { playlists: playlistsData })
+            user: {
+              id: userData.id,
+              displayName: userData.display_name,
+              username: userData.username
+            },
+            playlists: playlistsData
           });
         });
     })
