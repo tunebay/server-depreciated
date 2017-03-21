@@ -4,6 +4,7 @@ const { getCurrentTimestamp } = require('../services/helpers');
 // file paths relative to 'sql()' function in /database/config.js
 const sqlCreatePlaylist = sql('./queries/playlist/createPlaylist.sql');
 const sqlInsertGenres = sql('./queries/playlist/insertGenres.sql');
+const sqlFindAllPlaylistsByUserId = sql('./queries/playlist/findAllByUserId.sql');
 
 class Playlist {
   constructor(playlist, userId) {
@@ -42,6 +43,20 @@ class Playlist {
         .catch((error) => {
           console.log('**SAVING PLAYLIST ERROR***', error);
           reject(error);
+        });
+    });
+  }
+
+  static findAllByUserId(userId) {
+    return new Promise((resolve, reject) => {
+      db.any(sqlFindAllPlaylistsByUserId, [userId])
+        .then((data) => {
+          resolve(data);
+          console.log('PLAYLISTS DATA:', data);
+        })
+        .catch((err) => {
+          console.log('**Find all playlists by id ERRROR**', err);
+          reject(err);
         });
     });
   }
