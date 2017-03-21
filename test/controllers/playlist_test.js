@@ -2,7 +2,7 @@
 const expect = require('chai').expect;
 const request = require('supertest');
 const app = require('../../app');
-const { getUserIdFromToken } = require('../../services/jwt');
+const { playlist } = require('../dummy-playlist');
 
 describe('Playlist controller', () => {
   describe('POST /playlists/new', () => {
@@ -27,19 +27,7 @@ describe('Playlist controller', () => {
       request(app)
         .post('/playlists/new')
         .set('Authorization', token) // authorized request
-        .send({
-          title: 'Alchemy',
-          playlistType: 'album',
-          userId: getUserIdFromToken(token),
-          numberOfTracks: 12,
-          price: 6.99,
-          canPayMore: true,
-          lengthInSeconds: 3480,
-          genre1Id: 34,
-          genre2Id: 14,
-          description: 'My debut album for sales exclusively on Tunebay',
-          releaseDate: '13/12/2016'
-        })
+        .send(playlist)
         .end((err, res) => {
           expect(res.body.message).to.equal('ok');
           expect(res.body).to.have.property('id');
@@ -67,6 +55,17 @@ describe('Playlist controller', () => {
         .end((err, res) => {
           expect(res.text).to.equal('Unauthorized');
           expect(res.body).not.to.have.property('id');
+          done();
+        });
+    });
+
+    it('Saves the tracks', (done) => {
+      request(app)
+        .post('/playlists/new')
+        .set('Authorization', token) //  not authorized
+        .send(playlist)
+        .end((err, res) => {
+          expect(res.body.tracksInserted).to.equal(playlist.tracks.length);
           done();
         });
     });

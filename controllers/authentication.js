@@ -43,7 +43,6 @@ exports.signup = (req, res, next) => {
           }
           return user.save()
             .then((userRecord) => {
-              console.log('ALL OK TO SAVE USER');
               return res.status(200)
                 .json({
                   status: 'success',
