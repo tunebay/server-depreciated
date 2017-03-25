@@ -1,3 +1,4 @@
+const _ = require('lodash');
 const { db, sql } = require('../database/config');
 const { getCurrentTimestamp } = require('../services/helpers');
 
@@ -51,26 +52,37 @@ class Playlist {
     return new Promise((resolve, reject) => {
       db.any(sqlFindAllPlaylistsByUserId, [userId])
         .then((data) => {
-          const playlists = [];
+          // console.log(data);
 
-          data.forEach((record) => {
-            const playlist = {
-              id: record.id,
-              title: record.title,
-              playlistType: record.playlist_type,
-              price: record.price,
-              canPayMore: record.can_pay_more,
-              numberOfTracks: record.number_of_tracks,
-              duration: record.duration,
-              description: record.description,
-              releaseDate: record.release_date,
-              createdAt: record.created_at
+          const playlists = _.chain(data)
+          .groupBy('playlist_id')
+          .map((track, value) => {
+            console.log('TRACK', track[0]);
+            return {
+              title: track[0].playlist_title,
+              playlistId: value,
+              tracks: track
             };
-            playlists.push(playlist);
-          });
+          }).value();
+
+          // data.forEach((record) => {
+          //   const playlist = {
+          //     id: record.id,
+          //     title: record.title,
+          //     playlistType: record.playlist_type,
+          //     price: record.price,
+          //     canPayMore: record.can_pay_more,
+          //     numberOfTracks: record.number_of_tracks,
+          //     duration: record.duration,
+          //     description: record.description,
+          //     releaseDate: record.release_date,
+          //     createdAt: record.created_at
+          //   };
+          //   playlists.push(playlist);
+          // });
 
           resolve(playlists);
-          console.log('PLAYLISTS DATA:', playlists);
+          // console.log('PLAYLISTS DATA:', playlists);
         })
         .catch((err) => {
           console.log('**Find all playlists by id ERRROR**', err);
