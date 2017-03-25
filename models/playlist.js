@@ -57,14 +57,18 @@ class Playlist {
           .map((track, value) => {
             console.log('TRACK', track[0]);
             return {
-              title: track[0].playlist_title,
-              price: track[0].price,
+              title: track[0].title,
+              price: track[0].playlistPrice,
+              playlistType: track[0].playlistType,
+              canPayMore: track[0].canPayMore,
+              releaseDate: track[0].releaseDate,
+              createdAt: track[0].createdAt,
               playlistId: value,
               tracks: track
             };
           }).value();
           resolve(playlists);
-          // console.log('PLAYLISTS DATA:', playlists);
+          // console.log('PLAYITS DAT', playlists);
         })
         .catch((err) => {
           console.log('**Find all playlists by id ERRROR**', err);
