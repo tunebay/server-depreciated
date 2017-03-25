@@ -58,6 +58,7 @@ class Playlist {
             console.log('TRACK', track[0]);
             return {
               title: track[0].playlist_title,
+              price: track[0].price,
               playlistId: value,
               tracks: track
             };
