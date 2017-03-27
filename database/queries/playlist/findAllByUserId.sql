@@ -10,7 +10,7 @@ SELECT
   "tracks"."single" AS "single",
   "tracks"."name" AS "name",
   "tracks"."location" AS "location",
-  "tracks"."duration" AS "duraiton",
+  "tracks"."duration" AS "duration",
   "tracks"."playlist_position" AS "position"
 FROM playlists AS "playlist"
 LEFT JOIN tracks AS "tracks" ON playlist.id = tracks.playlist_id
