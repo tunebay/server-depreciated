@@ -1,4 +1,5 @@
 SELECT
+  "user"."display_name" AS "displayName",
   "playlist"."id" AS "playlist_id",
   "playlist"."title" AS "title",
   "playlist"."playlist_type" AS "playlistType",
@@ -14,8 +15,12 @@ SELECT
   "tracks"."playlist_position" AS "position"
 FROM playlists AS "playlist"
 LEFT JOIN tracks AS "tracks" ON playlist.id = tracks.playlist_id
+LEFT JOIN users AS "user" ON playlist.user_id = "user".id
 WHERE "playlist".id IN (
   SELECT id FROM playlists
   WHERE user_id = $1
 )
 ORDER BY "playlist".id, "position";
+
+-- "user"."display_name" AS "displayName",
+-- LEFT JOIN user AS "user" ON playlist.user_id = user.id

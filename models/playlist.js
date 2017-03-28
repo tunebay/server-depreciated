@@ -59,6 +59,7 @@ class Playlist {
             return {
               title: track[0].title,
               price: track[0].playlistPrice,
+              artist: track[0].displayName,
               playlistType: track[0].playlistType,
               canPayMore: track[0].canPayMore,
               releaseDate: track[0].releaseDate,
@@ -68,7 +69,7 @@ class Playlist {
             };
           }).value();
           resolve(playlists);
-          // console.log('PLAYITS DAT', playlists);
+          // console.log('PLAYTS DT', playlists);
         })
         .catch((err) => {
           console.log('**Find all playlists by id ERRROR**', err);
