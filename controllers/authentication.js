@@ -87,7 +87,7 @@ exports.emailcheck = (req, res, next) => {
   User.findByEmail(req.body.email)
     .then((foundEmail) => {
       if (foundEmail) {
-        return res
+        return res.status(422)
           .json({
             error: 'This email is already in use.',
             status: 'fail'
