@@ -21,6 +21,3 @@ WHERE "playlist".id IN (
   WHERE user_id = $1
 )
 ORDER BY "playlist".id, "position";
-
--- "user"."display_name" AS "displayName",
--- LEFT JOIN user AS "user" ON playlist.user_id = user.id
