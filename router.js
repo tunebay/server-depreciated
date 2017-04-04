@@ -3,6 +3,8 @@ const passport = require('passport');
 
 const requireAuth = passport.authenticate('jwt', { session: false });
 const requireLogin = passport.authenticate('local', { session: false });
+const facebookLogin = passport.authenticate('facebook');
+// const facebookCallback = passport.authenticate('facebook', failureRedirect)
 
 const AWS = require('./services/AWSUtil');
 const Authentication = require('./controllers/authentication');
@@ -19,6 +21,14 @@ module.exports = (app) => {
   app.post('/signup/emailcheck', Authentication.emailcheck);
   app.post('/playlists/new', requireAuth, Playlist.create);
   app.get('/users/:username', Profile.loadUserByUsername);
+  app.get('/auth/facebook/', facebookLogin);
+  app.get('/auth/facebook/callback/',
+    passport.authenticate('facebook', { failureRedirect: '/login' }),
+    (req, res) => {
+      console.log('**********SUCESS******', res);
+      // Successful authentication, redirect home.
+      // res.redirect('/');
+    });
   app.get('/upload/s3/sign', AWS.sign);
   app.get('/*', (req, res) => {
     res.status(404)

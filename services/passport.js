@@ -2,6 +2,7 @@ const passport = require('passport');
 const JwtStrategy = require('passport-jwt').Strategy;
 const ExtractJwt = require('passport-jwt').ExtractJwt;
 const LocalStrategy = require('passport-local');
+const FacebookStrategy = require('passport-facebook').Strategy;
 const User = require('../models/user');
 const config = require('../config');
 
@@ -45,6 +46,30 @@ const jwtLogin = new JwtStrategy(jwtOptions, (payload, done) => {
     .catch(error => done(error, false));
 });
 
+const facebookLogin = new FacebookStrategy({
+  clientID: config.FACEBOOK_APP_ID,
+  clientSecret: config.FACEBOOK_APP_SECRET,
+  callbackURL: 'http://localhost:3000/auth/facebook/callback/'
+},
+  (accessToken, refreshToken, profile, cb) => {
+    console.log('************IN STRATEGY*************');
+    console.log(cb);
+    console.log(profile);
+    // User.findOrCreate({ facebookId: profile.id }, (err, user) => {
+    //   return cb(err, user);
+    // });
+  }
+);
+
+passport.serializeUser((user, cb) => {
+  cb(null, user);
+});
+
+passport.deserializeUser((obj, cb) => {
+  cb(null, obj);
+});
+
 // Tell passport to use strategies
 passport.use(jwtLogin);
 passport.use(localLogin);
+passport.use(facebookLogin);
