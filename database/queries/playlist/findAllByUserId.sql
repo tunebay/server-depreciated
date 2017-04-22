@@ -7,6 +7,7 @@ SELECT
   "playlist"."release_date" AS "releaseDate",
   "playlist"."created_at" AS "createdAt",
   "playlist"."can_pay_more" AS "canPayMore",
+  "playlist"."artwork" AS "artworkLocation",
   "tracks"."price" AS "trackPrice",
   "tracks"."single" AS "single",
   "tracks"."name" AS "name",

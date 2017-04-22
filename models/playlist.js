@@ -62,6 +62,7 @@ class Playlist {
               title: track[0].title,
               price: track[0].playlistPrice,
               artist: track[0].displayName,
+              artwork: track[0].artworkLocation,
               playlistType: track[0].playlistType,
               canPayMore: track[0].canPayMore,
               releaseDate: track[0].releaseDate,
