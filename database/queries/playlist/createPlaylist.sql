@@ -8,7 +8,9 @@ INSERT INTO playlists(
   duration,
   description,
   release_date,
-  created_at
+  created_at,
+  artwork,
+  purchase_message
 )
 VALUES(
   ${userId},
@@ -20,6 +22,8 @@ VALUES(
   ${lengthInSeconds},
   ${description},
   ${releaseDate},
-  ${createdAt}
+  ${createdAt},
+  ${artworkLocation},
+  ${purchaseMessage}
 )
 RETURNING *;

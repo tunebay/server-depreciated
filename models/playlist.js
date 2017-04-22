@@ -24,6 +24,8 @@ class Playlist {
     this.genre3Id = playlist.genre3Id || null;
     this.description = playlist.description || null;
     this.releaseDate = playlist.releaseDate || null;
+    this.purchaseMessage = playlist.purchaseMessage || null;
+    this.artworkLocation = playlist.artworkLocation || null;
   }
 
   save() {
