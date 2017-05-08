@@ -20,6 +20,14 @@ module.exports = (app) => {
   app.post('/playlists/new', requireAuth, Playlist.create);
   app.get('/users/:username', Profile.loadUserByUsername);
   app.get('/upload/s3/sign', AWS.sign);
+  app.get('/auth/google', passport.authenticate('google', { scope: ['profile'] }));
+  app.get('/auth/google/callback',
+    passport.authenticate('google', { failureRedirect: '/fail', scope: ['profile'] }),
+    (req, res) => {
+      // Successful authentication, redirect home
+      console.log('************* google Success************');
+      res.redirect('/');
+    });
   app.get('/*', (req, res) => {
     res.status(404)
       .json({

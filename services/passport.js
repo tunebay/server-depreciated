@@ -1,6 +1,7 @@
 const passport = require('passport');
 const JwtStrategy = require('passport-jwt').Strategy;
 const ExtractJwt = require('passport-jwt').ExtractJwt;
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const LocalStrategy = require('passport-local');
 const User = require('../models/user');
 const config = require('../config');
@@ -44,6 +45,18 @@ const jwtLogin = new JwtStrategy(jwtOptions, (payload, done) => {
     })
     .catch(error => done(error, false));
 });
+
+
+passport.use(new GoogleStrategy({
+  clientID: config.GOOGLE_APP_ID,
+  clientSecret: config.GOOGLE_APP_SECRET,
+  callbackURL: 'http://localhost:8080'
+},
+  (accessToken, refreshToken, profile, cb) => {
+    console.log('********* PROFILE ***********', profile);
+    cb(profile);
+  }
+));
 
 // Tell passport to use strategies
 passport.use(jwtLogin);
