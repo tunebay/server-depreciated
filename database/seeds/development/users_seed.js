@@ -1,5 +1,21 @@
 const faker = require('faker');
 const bcrypt = require('bcrypt-nodejs');
+const _ = require('lodash');
+
+const USERS_TO_ADD = 100;
+
+const generateUser = () => {
+  return {
+    display_name: faker.name.findName(),
+    username: faker.internet.userName().toLowerCase(),
+    email: faker.internet.email(),
+    active: faker.random.boolean(),
+    account_type: _.random(1) === 1 ? 'artist' : 'fan',
+    created_at: faker.date.past(),
+    last_login: faker.date.past(),
+    password_hash: bcrypt.hashSync('s3cretP4ssw0d')
+  };
+};
 
 exports.seed = (knex) => {
   return knex('users').truncate() // Deletes ALL existing entries and restart sequence
@@ -158,5 +174,9 @@ exports.seed = (knex) => {
         last_login: faker.date.past(),
         password_hash: bcrypt.hashSync('password123')
       });
+    })
+    .then(() => {
+      const users = _.times(USERS_TO_ADD, () => generateUser());
+      return knex('users').insert(users);
     });
 };
