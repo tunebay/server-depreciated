@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt-nodejs');
 exports.seed = (knex) => {
   return knex('users').truncate() // Deletes ALL existing entries and restart sequence
     .then(() => { // Inserts seed entries one by one in series
+      // 1
       return knex('users').insert({
         display_name: 'Mali Michael',
         username: 'malimichael',
@@ -16,6 +17,7 @@ exports.seed = (knex) => {
       });
     })
     .then(() => {
+      // 2
       return knex('users').insert({
         display_name: 'General Roots',
         username: 'generalroots',
@@ -28,6 +30,7 @@ exports.seed = (knex) => {
       });
     })
     .then(() => {
+      // 3
       return knex('users').insert({
         display_name: 'Rude Health',
         username: 'rudehealth',
@@ -40,6 +43,7 @@ exports.seed = (knex) => {
       });
     })
     .then(() => {
+      // 4
       return knex('users').insert({
         display_name: 'Minx',
         username: 'minx',
@@ -52,6 +56,7 @@ exports.seed = (knex) => {
       });
     })
     .then(() => {
+      // 5
       return knex('users').insert({
         display_name: 'Olivia Luttrell',
         username: 'livluttrell',
@@ -64,6 +69,7 @@ exports.seed = (knex) => {
       });
     })
     .then(() => {
+      // 6
       return knex('users').insert({
         display_name: 'Matt Cardiff',
         username: 'bardiff',
@@ -76,6 +82,7 @@ exports.seed = (knex) => {
       });
     })
     .then(() => {
+      // 7
       return knex('users').insert({
         display_name: 'Ezra Bruno',
         username: 'ezrabruno',
@@ -88,6 +95,7 @@ exports.seed = (knex) => {
       });
     })
     .then(() => {
+      // 8
       return knex('users').insert({
         display_name: 'Maverick Sabre',
         username: 'mavericksabre',
@@ -100,6 +108,7 @@ exports.seed = (knex) => {
       });
     })
     .then(() => {
+      // 9
       return knex('users').insert({
         display_name: 'The Keepsakes',
         username: 'thekeepsakes',
@@ -112,6 +121,7 @@ exports.seed = (knex) => {
       });
     })
     .then(() => {
+      // 10
       return knex('users').insert({
         display_name: 'Mabel',
         username: 'mabel',
@@ -124,6 +134,7 @@ exports.seed = (knex) => {
       });
     })
     .then(() => {
+      // 11
       return knex('users').insert({
         display_name: 'Liam Bailey',
         username: 'liambailey',
@@ -136,6 +147,7 @@ exports.seed = (knex) => {
       });
     })
     .then(() => {
+      // 12
       return knex('users').insert({
         display_name: 'George The Poet',
         username: 'georgethepoet',
