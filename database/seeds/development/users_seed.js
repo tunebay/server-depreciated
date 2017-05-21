@@ -1,6 +1,7 @@
 const faker = require('faker');
 const bcrypt = require('bcrypt-nodejs');
-const _ = require('lodash');
+const random = require('lodash/random');
+const times = require('lodash/times');
 
 const USERS_TO_ADD = 100;
 
@@ -10,10 +11,11 @@ const generateUser = () => {
     username: faker.internet.userName().toLowerCase(),
     email: faker.internet.email(),
     active: faker.random.boolean(),
-    account_type: _.random(1) === 1 ? 'artist' : 'fan',
+    account_type: random(1) === 1 ? 'artist' : 'fan',
     created_at: faker.date.past(),
     last_login: faker.date.past(),
     password_hash: bcrypt.hashSync('s3cretP4ssw0d')
+    // password_hash: 'secret'
   };
 };
 
@@ -176,7 +178,7 @@ exports.seed = (knex) => {
       });
     })
     .then(() => {
-      const users = _.times(USERS_TO_ADD, () => generateUser());
+      const users = times(USERS_TO_ADD, () => generateUser());
       return knex('users').insert(users);
     });
 };
